@@ -23,6 +23,14 @@ import { exportGame, useSession, type Setup } from "./session";
 import { EndScreen } from "./EndScreen";
 
 const TIP_KEY = "nz.tips.seen";
+/** ?rychlost=10 zrychlí boty i automatické karty (testy, prezentace). */
+const SPEED = (() => {
+  try {
+    return Math.max(1, Number(new URLSearchParams(location.search).get("rychlost")) || 1);
+  } catch {
+    return 1;
+  }
+})();
 function seenTips(): Set<string> {
   try {
     return new Set(JSON.parse(localStorage.getItem(TIP_KEY) ?? "[]"));
@@ -214,12 +222,12 @@ export function GameScreen({ setup, resume, onExit, onTitle }: { setup: Setup; r
           const t = setTimeout(() => {
             const a = botNextAction({ ...s, storm: { [id]: s.storm![id]! } }, { stormRolls: 4 });
             if (a && a.t !== "stormEnd") dispatch(a);
-          }, 650);
+          }, 650 / SPEED);
           return () => clearTimeout(t);
         }
       }
       if (!humans.length) {
-        const t = setTimeout(() => dispatch({ t: "stormEnd" }), 700);
+        const t = setTimeout(() => dispatch({ t: "stormEnd" }), 700 / SPEED);
         return () => clearTimeout(t);
       }
       return;
@@ -228,14 +236,14 @@ export function GameScreen({ setup, resume, onExit, onTitle }: { setup: Setup; r
     const t = setTimeout(() => {
       const a = botNextAction(s);
       if (a) dispatch(a);
-    }, s.turn?.stage === "roll" ? 650 : 900);
+    }, (s.turn?.stage === "roll" ? 650 : 900) / SPEED);
     return () => clearTimeout(t);
   }, [s, botTurn, popup, dispatch, setup.bots]);
 
   // Karta počasí/události sama zmizí
   useEffect(() => {
     if (!popup) return;
-    const t = setTimeout(() => setPopup(null), 2600);
+    const t = setTimeout(() => setPopup(null), 2600 / SPEED);
     return () => clearTimeout(t);
   }, [popup]);
 

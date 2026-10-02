@@ -31,7 +31,7 @@
     "manifold-3d": "^3.5.4",
     "marked": "^18.0.14",
     "pdf-lib": "^1.17.1",
-    "playwright": "^1.56.1",
+    "playwright": "1.56.1",
     "tailwindcss": "^4.3.3",
     "three": "^0.186.1",
     "tsx": "^4.23.15",
