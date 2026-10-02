@@ -31,7 +31,7 @@ export const EVENTS: EventCard[] = [
   { id: "E11", who: "tony", helper: true, name: "Aplikace", text: "Prohlédni 3 karty počasí a seřaď je.", flavor: "Aplikace hlásí déšť. Karel to ví taky. …Uši se neseknou." },
   { id: "E12", who: "tony", helper: true, name: "Solární sušička", text: "Toto kolo se Křížaly i Bylinky suší v jakémkoli počasí.", flavor: "Slunce uložené na později. …Karel by tak uložil mrkev." },
   { id: "E13", who: "louka", helper: false, name: "Kohout Julek", text: "Každé zvíře smí v tomto kole popojít o 1 pole (Květa o 2).", flavor: "Julek kokrhá ve čtyři. Ne že musí. …Protože může." },
-  { id: "E14", who: "louka", helper: false, name: "Brigáda", text: "Každé zvíře na stanici smí v tomto kole udělat akci síly 1 navíc.", flavor: "Dobrovolníci přijeli. …Karel je zaúčal. Do ničeho." },
+  { id: "E14", who: "louka", helper: false, name: "Brigáda", text: "Každé zvíře na stanici si v tomto kole smí vzít 1 surovinu navíc.", flavor: "Dobrovolníci přijeli. …Karel je zaúčal. Do ničeho." },
   { id: "E15", who: "louka", helper: false, name: "Sbírka na seno", text: "+2 Sena do spíže.", flavor: "Lidé poslali na seno. …Karel by poděkoval osobně. Hýkáním." },
   { id: "E16", who: "louka", helper: false, name: "Zažít Louku", text: "Každé zvíře +1 srdíčko.", flavor: "Návštěva drbala všechny. …Karla dvakrát. Zařídil si to." },
   { id: "E17", who: "louka", helper: false, name: "Myši v Seníku", text: "−1 Seno ze spíže (neplatí s Romanem nebo Pelíšky pro kočky).", flavor: "Myši. …Kočky měly zrovna poradu." },

@@ -93,7 +93,7 @@ export const ANIMAL_DEFS: Record<AnimalId, AnimalDef> = {
     fem: false,
     marker: { shape: "hexagon", ring: "#3f6a78", numeral: 6 },
     cargo: 4,
-    power: { name: "Mezi bouřkou a ostatními · Beranidlo", text: "Bouřka a kroupy neberou nic na jeho poli a vedle něj. Větve odklidí a dostane Proutí. Smí přeskočit potok." },
+    power: { name: "Mezi bouřkou a ostatními · Beranidlo", text: "Počasí nebere ani nemáčí nic na jeho poli a vedle něj. Větve odklidí a dostane Proutí. Smí přeskočit potok." },
     quirk: { name: "Osobní prostor", text: "Nezastaví na poli s jiným zvířetem; pomáhá a daruje ze sousedního pole. U Kolečka musí zastavit." },
     second: { name: "Podrbání mezi rohy", text: "Smí stát s ostatními. Jednou za sezónu zruší zvrat drsné karty počasí." },
     wish: { name: "Suché seno", text: "Za celou hru nezmoklo ani jedno Seno." },

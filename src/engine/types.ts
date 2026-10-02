@@ -63,6 +63,7 @@ export type TurnState = {
   strBonus: number;
   icon: WeatherIcon | null;
   moved: number;
+  moveBonus: number;
   noMove: boolean;
   acted: boolean;
 };

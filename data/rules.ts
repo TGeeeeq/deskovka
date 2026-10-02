@@ -1,4 +1,4 @@
-import type { Bag, ProductId, SeasonId } from "./types";
+import type { ProductId, SeasonId } from "./types";
 
 export const SEASONS: SeasonId[] = ["jaro", "leto", "podzim"];
 export const SEASON_NAME: Record<SeasonId, string> = { jaro: "Jaro", leto: "Léto", podzim: "Podzim" };
@@ -57,7 +57,6 @@ export const TIER_TEXT: Record<TierId, { name: string; flavor: string }> = {
 
 export const START_SUPPLY_NOTE = "Louka 3 Tráva, Potok 2 Voda + 2 Proutí, Zahrádka 2 Bylinky, Seník 2 Hnůj, Kompost 1 Hnůj, lednice v Dílně 2 Ovoce.";
 
-export const SUMMER_WOOL: Bag = { vlna: 4 };
 export const STORM_TIMES = [60, 90, 0] as const;
 export type StormTime = (typeof STORM_TIMES)[number];
 

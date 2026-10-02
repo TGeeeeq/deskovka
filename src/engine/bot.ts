@@ -364,6 +364,13 @@ export function planTurn(s: GameState): Plan {
         actStage(r.state, [{ t: "assign", move: m }, { t: "move", to }]);
       }
     }
+  } else if (t.stage === "move") {
+    const a = active(s)!;
+    for (const to of reachable(s, a.id, effectiveMove(s, a.id, t.moveDie ?? 0)).keys()) {
+      const r = tryApply(s, { t: "move", to });
+      if (!r) continue;
+      actStage(r.state, [{ t: "move", to }]);
+    }
   } else if (t.stage === "act") actStage(s, []);
   return best;
 }
@@ -414,3 +421,74 @@ export function playOut(s: GameState, opts?: BotOptions, maxSteps = 4000): GameS
 
 export const needName = (id: string) => NEED_BY_ID[id].name;
 export const stationName = (id: StationId) => STATIONS[id].short;
+
+/** Volné akce, které by bot teď udělal (bez provedení). */
+export function autoFreeActions(s: GameState): Action[] {
+  const out: Action[] = [];
+  for (let guard = 0; guard < 20; guard++) {
+    if (s.pending || s.phase !== "turn" || !s.turn) break;
+    let found: Action | null = null;
+    for (const a of freeCandidates(s)) {
+      if (a.t === "playReserve" || a.t === "walk" || a.t === "pickWheelbarrow") continue;
+      if (a.t === "unlock" && animal(s, a.animal).hearts < 4 && a.animal !== "karel") continue;
+      const r = tryApply(s, a);
+      if (r) {
+        s = r.state;
+        found = a;
+        break;
+      }
+    }
+    if (!found) break;
+    out.push(found);
+  }
+  return out;
+}
+
+/** Další akce bota pro animované UI: vrací jednu akci (nebo null). */
+export function botNextAction(s: GameState, opts: BotOptions = { stormRolls: 3 }): Action | null {
+  if (s.phase === "over") return null;
+  if (s.pending) return { t: "choose", i: choosePending(s) };
+  if (s.phase === "storm") {
+    const ids = Object.keys(s.storm ?? {}) as AnimalId[];
+    for (const id of ids) {
+      const m = s.storm?.[id];
+      if (!m || m.stopped) continue;
+      if (m.die !== null) {
+        const a = animal(s, id);
+        const carrying = PRODUCT_IDS.some((p) => count(a.cargo, p) > 0);
+        let best = a.pos;
+        let bestD = Infinity;
+        for (const to of reachable(s, id, m.die).keys()) {
+          const d = carrying ? distance(s, id, to, STATIONS.senik.space) : distance(s, id, to, a.pos);
+          if (d < bestD) {
+            bestD = d;
+            best = to;
+          }
+        }
+        return { t: "stormMove", animal: id, to: best };
+      }
+      if (m.rolls < opts.stormRolls) return { t: "stormRoll", animal: id };
+    }
+    return { t: "stormEnd" };
+  }
+  const t = s.turn;
+  if (!t) return null;
+  if (t.stage === "roll") return { t: "roll" };
+  const free = autoFreeActions(s);
+  if (free.length && t.stage !== "assign") return free[0];
+  if (t.stage === "assign" || t.stage === "act") {
+    const a = active(s)!;
+    if (t.stage === "assign" && (a.rerollFree || a.hearts >= 2) && t.rerolled === 0 && Math.max(...t.dice) <= 2) return { t: "reroll", die: t.dice[0] <= t.dice[1] ? 0 : 1 };
+    const plan = planTurn(s);
+    for (const act of plan.actions) {
+      if (tryApply(s, act)) return act;
+    }
+    return t.stage === "act" ? { t: "skipAction" } : { t: "assign", move: 0 };
+  }
+  if (t.stage === "move") {
+    const plan = planTurn(s);
+    for (const act of plan.actions) if (tryApply(s, act)) return act;
+    return { t: "move", to: animal(s, t.animal).pos };
+  }
+  return { t: "endTurn" };
+}

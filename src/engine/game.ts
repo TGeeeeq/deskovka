@@ -119,6 +119,7 @@ function syncStripsTo(s: GameState) {
   while (have > want) {
     const i = s.strips.indexOf(Math.max(...s.strips));
     s.strips[i] -= 1;
+    s.stripMown[i] = true;
     have--;
   }
 }
@@ -442,6 +443,7 @@ function startTurn(c: Ctx) {
     strBonus: 0,
     icon: null,
     moved: 0,
+    moveBonus: 0,
     noMove: s.flags.noMoveRound,
     acted: false,
   };
@@ -456,7 +458,6 @@ function endTurn(c: Ctx) {
   for (const m of mod(s, "endHeart")) if (station && m.stations.includes(station)) addHearts(c, a, 1);
   if (!s.turn!.acted) s.stats.idleTurns += 1;
   s.stats.turns += 1;
-  a.moveBonusNext = 0;
   s.turnIdx += 1;
   if (s.turnIdx >= s.order.length) endRound(c);
   else startTurn(c);
@@ -852,7 +853,7 @@ export function effectiveMove(s: GameState, id: AnimalId, die: number): number {
   if (id === "pogo" && v <= 2) v = 3;
   if (id === "pogo" && s.flags.pogoBoost) v += 1;
   if (id === "kveta") v = Math.min(v, 4);
-  v += a.moveBonusNext;
+  v += s.turn?.animal === id && s.turn.moveDie !== null ? s.turn.moveBonus : a.moveBonusNext;
   for (const m of mod(s, "moveMod", id)) if (!(id === "karel" && m.n < 0)) v += m.n;
   if (id !== "karel")
     for (const m of mod(s, "moveMax", id)) {
@@ -960,7 +961,7 @@ export function canCraft(s: GameState, r: RecipeId): boolean {
 
 function craftTimes(s: GameState, r: RecipeId, n: number) {
   let times = craftsOf(n);
-  if (r === "seno" && n === 2 && mod(s, "craftDouble").length) times = 2;
+  if (r === "seno" && times > 0 && mod(s, "craftDouble").length) times += 1;
   return times + (times > 0 ? friendBonus(s) : 0);
 }
 
@@ -1048,8 +1049,17 @@ function deliverAll(c: Ctx, a: AnimalState): boolean {
   return true;
 }
 
-function markActed(s: GameState) {
+function markActed(s: GameState, c?: Ctx) {
   const a = active(s)!;
+  const t = s.turn!;
+  if (t.helper && c && !t.acted) {
+    const h = animal(s, t.helper);
+    const bonus = 1 + mod(s, "jointHeart").length;
+    addHearts(c, a, bonus);
+    addHearts(c, h, bonus);
+    s.stats.joint += 1;
+    c.emit({ e: "joint", a: a.id, b: h.id });
+  }
   const st = stationAt(a.pos);
   if (st && !s.flags.actedAt.includes(st)) s.flags.actedAt.push(st);
   s.turn!.acted = true;
@@ -1178,6 +1188,8 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       const m = action.move === 1 ? 1 : 0;
       t!.moveDie = t!.dice[m];
       t!.strDie = t!.dice[1 - m];
+      t!.moveBonus = a.moveBonusNext;
+      a.moveBonusNext = 0;
       t!.stage = "move";
       break;
     }
@@ -1195,11 +1207,6 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       t!.helper = h.id;
       t!.distantHelp = opt!.distant;
       if (!areFriends(a.id, h.id)) h.helped = true;
-      const bonus = 1 + mod(s, "jointHeart").length;
-      addHearts(c, a, bonus);
-      addHearts(c, h, bonus);
-      s.stats.joint += 1;
-      c.emit({ e: "joint", a: a.id, b: h.id });
       break;
     }
     case "gather":
@@ -1211,7 +1218,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
         doGather(c, action.take, n - 1 + friendBonus(s), action.strip);
         doCraft(c, action.recipe, 1);
       } else doGather(c, action.take, gatherLimit(s), action.strip);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "craft": {
@@ -1219,7 +1226,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       const times = craftTimes(s, action.recipe, strength(s, "craft"));
       if (times < 1) fail("Na zpracování chybí síla.");
       doCraft(c, action.recipe, times);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "work": {
@@ -1229,7 +1236,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       if (STATIONS[PROJECT_BY_ID[p!.id].station].space !== a.pos) fail("Na projektu se pracuje na jeho stanici.");
       const n = strength(s, "work");
       addWork(c, p!, workOf(n) + friendBonus(s), n >= 4);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "rest": {
@@ -1244,7 +1251,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       if (kesu) fulfillNeed(c, kesu, a, [a]);
       const emil = s.needs.find((x) => x.id === "N18");
       if (emil && others > 0) fulfillNeed(c, emil, a, [a, ...othersOn(s, a.pos, a.id)]);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "openGate": {
@@ -1254,7 +1261,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       s.gates[action.gate].open = true;
       if (a.id === "karel") s.gates[action.gate].lock = true;
       c.emit({ e: "gate", gate: action.gate, open: true });
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "scout": {
@@ -1263,7 +1270,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       const avalaFree = a.id === "avala" && a.unlocked;
       if (s.flags.scouted && !avalaFree) fail("V tomhle kole už se vyhlíželo.");
       if (!avalaFree) s.flags.scouted = true;
-      markActed(s);
+      markActed(s, c);
       drawEvent(c, a.id);
       break;
     }
@@ -1275,7 +1282,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       if (room(s, a) < 1) fail("Náklad je plný.");
       add(a.cargo, "trava", 1);
       c.emit({ e: "gained", animal: a.id, item: "trava", n: 1, from: "supply" });
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "care": {
@@ -1285,7 +1292,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       if (stationAt(a.pos) !== "senik") fail("Princezna čeká u Seníku.");
       if (strength(s, "other") < 4) fail("Česání chce sílu 4 — ve dvou.");
       fulfillNeed(c, slot!, a, t!.helper ? [a, animal(s, t!.helper)] : [a]);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "clearBranch": {
@@ -1293,7 +1300,7 @@ export function apply(state: GameState, action: Action): { state: GameState; eve
       if (!s.branches.includes(a.pos)) fail("Tady žádné větve nejsou.");
       s.branches = s.branches.filter((b) => b !== a.pos);
       if (room(s, a) > 0) add(a.cargo, "prouti", 1);
-      markActed(s);
+      markActed(s, c);
       break;
     }
     case "skipAction": {
@@ -1620,16 +1627,7 @@ function stormAction(c: Ctx, action: Action) {
       if (!route) fail("Tam se nedoběhne.");
       moveAnimal(c, a, route!.path, []);
       m!.die = null;
-      if (stationAt(a.pos) === "senik") {
-        const items: Bag = {};
-        for (const [k, v] of entries(a.cargo))
-          if (isProduct(k)) {
-            add(s.pantry, k, v);
-            add(a.cargo, k, -v);
-            items[k] = v;
-          }
-        if (total(items)) c.emit({ e: "delivered", animal: a.id, items });
-      }
+      if (route!.path.includes(STATIONS.senik.space)) deliverAll(c, a);
       break;
     }
     case "stormMek": {

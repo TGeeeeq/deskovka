@@ -1,0 +1,110 @@
+/* Karty v jednotkách --u (1 mm v tisku, n px na obrazovce).
+   Rozměr poker 63×88 mm, bezpečná zóna 3 mm, spadávka 3 mm jen v tisku. */
+.nz-card {
+  --u: 3.4px;
+  --bleed: 0;
+  position: relative;
+  width: calc((63 + 2 * var(--bleed)) * var(--u));
+  height: calc((88 + 2 * var(--bleed)) * var(--u));
+  border-radius: calc(3.2 * var(--u));
+  overflow: hidden;
+  font-family: var(--font-sans, "Plus Jakarta Sans", sans-serif);
+  color: #2a2418;
+  background: #fbf3dc;
+  box-shadow: 0 calc(0.6 * var(--u)) calc(2.4 * var(--u)) rgba(31, 61, 42, 0.25);
+  flex: none;
+  line-height: 1.22;
+}
+.nz-card.nz-print {
+  --u: 1mm;
+  box-shadow: none;
+  border-radius: 0;
+}
+.nz-card.nz-mini {
+  width: calc((44 + 2 * var(--bleed)) * var(--u));
+  height: calc((68 + 2 * var(--bleed)) * var(--u));
+}
+.nz-card.nz-board {
+  width: calc((105 + 2 * var(--bleed)) * var(--u));
+  height: calc((148 + 2 * var(--bleed)) * var(--u));
+}
+.nz-card .nz-inner {
+  position: absolute;
+  inset: calc((var(--bleed) + 2.6) * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(1.6 * var(--u));
+}
+.nz-card .nz-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc((var(--bleed) + 17) * var(--u));
+}
+.nz-card .nz-frame {
+  position: absolute;
+  inset: calc((var(--bleed) + 1.4) * var(--u));
+  border: calc(0.35 * var(--u)) solid rgba(61, 51, 38, 0.55);
+  border-radius: calc(2.2 * var(--u));
+  pointer-events: none;
+}
+.nz-card .nz-kicker {
+  font-size: calc(2.4 * var(--u));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.85;
+}
+.nz-card .nz-title {
+  font-family: var(--font-serif, Fraunces, serif);
+  font-weight: 700;
+  font-size: calc(4.6 * var(--u));
+  line-height: 1.05;
+}
+.nz-card .nz-text {
+  font-size: calc(3 * var(--u));
+}
+.nz-card .nz-flavor {
+  font-family: var(--font-serif, Fraunces, serif);
+  font-style: italic;
+  font-size: calc(2.75 * var(--u));
+  color: #5a4a34;
+  margin-top: auto;
+  padding-top: calc(1.4 * var(--u));
+  border-top: calc(0.25 * var(--u)) dashed rgba(61, 51, 38, 0.35);
+}
+.nz-card .nz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.8 * var(--u));
+  font-size: calc(2.7 * var(--u));
+  background: rgba(255, 255, 255, 0.7);
+  border: calc(0.25 * var(--u)) solid rgba(61, 51, 38, 0.35);
+  border-radius: calc(1.4 * var(--u));
+  padding: calc(0.4 * var(--u)) calc(1.2 * var(--u));
+  white-space: nowrap;
+}
+.nz-card .nz-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(0.9 * var(--u));
+  align-items: center;
+}
+.nz-card svg.nz-ico {
+  width: calc(4 * var(--u));
+  height: calc(4 * var(--u));
+}
+.nz-card .nz-big svg {
+  width: calc(13 * var(--u));
+  height: calc(13 * var(--u));
+}
+.nz-card .nz-corner {
+  position: absolute;
+  right: calc((var(--bleed) + 2.4) * var(--u));
+  top: calc((var(--bleed) + 2.4) * var(--u));
+}
+.nz-back {
+  background: #2d5a3d;
+  color: #f7f2e7;
+}
