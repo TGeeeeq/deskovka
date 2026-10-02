@@ -3,6 +3,14 @@
 Kooperativní desková hra **Než přijde zima** pro azyl **Nech mě růst z.s.** (Louka, Vlkaneč).
 Jedno repo, jeden zdroj dat → webová hra, tisková PDF, STL figurky a prezentační web.
 
+## Git a nasazení
+
+- **`main` = produkce na Vercelu** (projekt `nez-prijde-zima`). Push na `main` nasadí ostrou verzi,
+  kterou vidí investoři. Ostatní větve dostanou jen preview URL.
+- Práce jde na pracovní větev (`claude/*`), na `main` se posílá až ověřený stav
+  (`npx tsc --noEmit && npm test && npm run build`). Větve se nemažou.
+- Build řídí `vercel.json` (Vite, `dist/`). Žádné serverové funkce, žádné env proměnné.
+
 ## Příkazy
 
 ```bash
