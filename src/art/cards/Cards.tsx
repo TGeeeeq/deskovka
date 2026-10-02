@@ -61,12 +61,12 @@ export function WeatherCardView({ id, mode }: { id: string; mode?: CardMode }) {
           </div>
           <div className="nz-title">{c.name}</div>
         </div>
-        <div className="nz-corner nz-big" style={{ background: "#fbf3dc", borderRadius: "50%", padding: "calc(0.6 * var(--u))", marginTop: "calc(6 * var(--u))" }}>
-          <WeatherGlyph icon={c.icon} />
+        <div className="nz-corner" style={{ background: "#fbf3dc", borderRadius: "50%", padding: "calc(0.4 * var(--u))", width: "calc(10.5 * var(--u))", height: "calc(10.5 * var(--u))" }}>
+          <WeatherGlyph icon={c.icon} className="nz-wx" />
         </div>
-        <div className="nz-text" style={{ marginTop: "calc(3 * var(--u))", fontWeight: 700 }}>
-          {WEATHER_ICON_NAME[c.icon]}
-          {c.need ? " · 📜 nová Potřeba" : ""}
+        <div className="nz-text nz-row" style={{ marginTop: "calc(3 * var(--u))", fontWeight: 700, justifyContent: "space-between" }}>
+          <span>{WEATHER_ICON_NAME[c.icon]}</span>
+          {c.need ? <span className="nz-chip" style={{ background: "#f5d9cc" }}>+ nová Potřeba</span> : null}
         </div>
         <div className="nz-text" style={{ display: "flex", flexDirection: "column", gap: "calc(0.8 * var(--u))" }}>
           {Object.entries(c.refill).map(([sid, bag]) => (
@@ -79,7 +79,10 @@ export function WeatherCardView({ id, mode }: { id: string; mode?: CardMode }) {
         <div className="nz-text" style={{ background: c.harsh ? "#f5d9cc" : "#f1ead2", borderRadius: "calc(1.6 * var(--u))", padding: "calc(1.2 * var(--u))" }}>
           {c.text}
         </div>
-        <div className="nz-flavor">{c.flavor}</div>
+        <div style={{ flex: 1, display: "grid", placeItems: "center", opacity: 0.16, minHeight: 0 }} aria-hidden>
+          <WeatherGlyph icon={c.icon} className="nz-wx-big" />
+        </div>
+        <div className="nz-flavor" style={{ marginTop: 0 }}>{c.flavor}</div>
       </div>
     </Frame>
   );
@@ -144,9 +147,9 @@ export function NeedCardView({ id, due, mode }: { id: string; due?: number; mode
           </div>
         </div>
         <div className="nz-row nz-text" style={{ marginTop: "calc(2 * var(--u))", justifyContent: "space-between" }}>
-          <span className="nz-chip">📍 {r.where}</span>
+          <span className="nz-chip"><b>Kde:</b> {r.where}</span>
           <span className="nz-chip" title="Lhůta v kolech">
-            ⏳ {due ?? c.deadline}
+            <b>Lhůta:</b> {due ?? c.deadline}
           </span>
         </div>
         <div className="nz-text" style={{ background: "#f1ead2", borderRadius: "calc(1.6 * var(--u))", padding: "calc(1.2 * var(--u))", display: "flex", flexDirection: "column", gap: "calc(0.8 * var(--u))" }}>

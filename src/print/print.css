@@ -1,0 +1,133 @@
+/* Tisk: všechny rozměry v mm, žádné filtry ani blend módy (Chromium je v PDF rastruje). */
+.pr-page {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  break-after: page;
+  page-break-after: always;
+  margin: 0 auto;
+}
+.pr-page:last-child {
+  break-after: auto;
+  page-break-after: auto;
+}
+@media screen {
+  body.pr-body {
+    background: #8a8577;
+  }
+  .pr-page {
+    margin: 12px auto;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+@media print {
+  body.pr-body {
+    background: #fff;
+  }
+}
+.pr-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4mm;
+  text-align: center;
+  font: 7pt "Plus Jakarta Sans", sans-serif;
+  color: #5a5040;
+}
+.pr-crop {
+  position: absolute;
+  background: #000;
+}
+
+/* Pravidla A5 */
+.rb {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 8.6pt;
+  line-height: 1.38;
+  color: #2a2418;
+}
+.rb h1 {
+  font-family: Fraunces, serif;
+  font-size: 22pt;
+  color: #1f3d2a;
+  margin: 0 0 3mm;
+  line-height: 1.05;
+}
+.rb h2 {
+  font-family: Fraunces, serif;
+  font-size: 14pt;
+  color: #1f3d2a;
+  margin: 5mm 0 2mm;
+  break-after: avoid;
+  border-bottom: 0.3mm solid #c89858;
+  padding-bottom: 1mm;
+}
+.rb h3 {
+  font-family: Fraunces, serif;
+  font-size: 11pt;
+  color: #2d5a3d;
+  margin: 3.5mm 0 1.2mm;
+  break-after: avoid;
+}
+.rb h4 {
+  font-size: 9pt;
+  margin: 2.5mm 0 1mm;
+  break-after: avoid;
+}
+.rb p,
+.rb ul,
+.rb ol {
+  margin: 0 0 2mm;
+}
+.rb ul,
+.rb ol {
+  padding-left: 5mm;
+}
+.rb li {
+  margin: 0.4mm 0;
+}
+.rb ul li {
+  list-style: disc;
+}
+.rb ol li {
+  list-style: decimal;
+}
+.rb em {
+  font-family: Fraunces, serif;
+  color: #5a4a34;
+}
+.rb blockquote {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  background: #f3ecd8;
+  border-left: 1mm solid #2d5a3d;
+  border-radius: 1mm;
+}
+.rb table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5mm 0 3mm;
+  font-size: 7.4pt;
+  break-inside: auto;
+}
+.rb tr {
+  break-inside: avoid;
+}
+.rb th,
+.rb td {
+  border: 0.2mm solid #cfc4a8;
+  padding: 0.8mm 1.2mm;
+  text-align: left;
+  vertical-align: top;
+}
+.rb th {
+  background: #e8efe4;
+}
+.rb hr {
+  border: 0;
+  border-top: 0.2mm dashed #b79a64;
+  margin: 3mm 0;
+}
+.rb code {
+  font-size: 7.6pt;
+}
