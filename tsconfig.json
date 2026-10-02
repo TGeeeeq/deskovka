@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": false,
+    "types": ["node", "vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@data/*": ["data/*"],
+      "@engine/*": ["src/engine/*"],
+      "@art/*": ["src/art/*"],
+      "@game/*": ["src/game/*"],
+      "@shared/*": ["src/shared/*"],
+      "@i18n/*": ["src/i18n/*"]
+    }
+  },
+  "include": ["data", "src", "scripts", "tests", "models", "vite.config.ts"]
+}

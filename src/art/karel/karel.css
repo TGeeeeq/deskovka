@@ -1,0 +1,176 @@
+/* Karel — sdílené animace maskota (404, loukarun landing, KarelStage).
+   Jen transform/opacity, ať vše běží na kompozitoru.
+
+   POZOR na jednotky: `KarelSvg` kreslí v souřadnicích hry (viewBox ~133×131),
+   takže 1px v CSS transformu je jedna herní jednotka, ne jeden pixel na
+   obrazovce. Posuny v pózách hlavy jsou proto malá čísla. */
+
+@keyframes karel-blink {
+  0%, 94%, 100% { transform: scaleY(0); }
+  95%, 98% { transform: scaleY(1); }
+}
+@keyframes karel-ear-l {
+  0%, 88%, 100% { transform: rotate(0deg); }
+  90%, 94% { transform: rotate(-9deg); }
+}
+@keyframes karel-ear-r {
+  0%, 78%, 100% { transform: rotate(0deg); }
+  81%, 86% { transform: rotate(7deg); }
+}
+@keyframes karel-tail {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  78%, 88% { transform: rotate(14deg); }
+}
+@keyframes karel-hop {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-10px) rotate(-2deg); }
+  60% { transform: translateY(0); }
+  75% { transform: translateY(-4px); }
+}
+@keyframes karel-leg-swing-a {
+  0%, 100% { transform: rotate(16deg); }
+  50% { transform: rotate(-14deg); }
+}
+@keyframes karel-leg-swing-b {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(16deg); }
+}
+@keyframes karel-walk-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes karel-chomp-bite {
+  0%, 100% { transform: rotate(0deg); }
+  22% { transform: rotate(26deg) translate(1.3px, 3.3px); }
+  38% { transform: rotate(18deg) translate(1.3px, 2.6px); }
+  55% { transform: rotate(28deg) translate(1.3px, 4px); }
+  75% { transform: rotate(6deg); }
+}
+@keyframes karel-shake-no-swing {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(6deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(3deg); }
+}
+
+.karel-eyelid, .karel-ear-l, .karel-ear-r, .karel-tail,
+.karel-head, .karel-leg { transform-box: fill-box; }
+
+.karel-eyelid { animation: karel-blink 4.4s ease-in-out infinite; transform-origin: 50% 0%; }
+.karel-ear-l { animation: karel-ear-l 6.5s ease-in-out infinite; transform-origin: 50% 100%; }
+.karel-ear-r { animation: karel-ear-r 7.3s ease-in-out infinite; transform-origin: 50% 100%; }
+.karel-tail { animation: karel-tail 5.7s ease-in-out infinite; transform-origin: 97% 3%; }
+.karel-hop { animation: karel-hop 0.6s ease-out; }
+
+/* Hlava se otáčí kolem krčního kloubu, tedy tam, kde krk dosedá na trup —
+   v rámečku skupiny `.karel-head` to vychází na 21 % zleva a 91 % shora.
+   Transition zajistí plynulý návrat z póz. */
+.karel-head { transform-origin: 21% 91%; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+/* Noha visí z kyčle, tedy od svého horního okraje — ve hře je to bod,
+   kolem kterého `leg()` rotuje. */
+.karel-leg { transform-origin: 50% 0%; }
+
+.karel-walking .karel-leg-a { animation: karel-leg-swing-a 0.5s ease-in-out infinite; }
+.karel-walking .karel-leg-b { animation: karel-leg-swing-b 0.5s ease-in-out infinite; }
+.karel-walking .karel-bob { animation: karel-walk-bob 0.25s ease-in-out infinite; }
+
+.karel-chomp .karel-head { animation: karel-chomp-bite 0.9s ease-in-out infinite; }
+.karel-shake-no .karel-head { animation: karel-shake-no-swing 0.7s ease-in-out; }
+.karel-pose-graze .karel-head { transform: rotate(30deg) translate(1.3px, 4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .karel-eyelid, .karel-ear-l, .karel-ear-r, .karel-tail, .karel-hop,
+  .karel-walking .karel-leg-a, .karel-walking .karel-leg-b, .karel-walking .karel-bob,
+  .karel-chomp .karel-head, .karel-shake-no .karel-head {
+    animation: none;
+  }
+  .karel-head { transition: none; }
+}
+
+/* =========================================================
+   KarelStage — portál, razítko, prach
+   Pohyb po obrazovce řeší motion v KarelStage.tsx; tady jsou jen věci,
+   které se dají uhrát čistým CSS a nepotřebují stav.
+   ========================================================= */
+
+/* Portál ze hry (js/karel.js): roztočí se, Karel z něj vyjde a zavře se.
+   Je to jeho ikonický vstup, takže první příchod na stránku patří jemu. */
+@keyframes karel-portal {
+  0% { transform: scale(0.1) rotate(0deg); opacity: 0; }
+  18% { transform: scale(1.06) rotate(170deg); opacity: 1; }
+  62% { transform: scale(1) rotate(480deg); opacity: 1; }
+  100% { transform: scale(0.08) rotate(700deg); opacity: 0; }
+}
+.karel-portal {
+  animation: karel-portal 1.5s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  transform-origin: 50% 50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, transparent 58%, var(--color-accent) 72%, transparent 78%),
+    conic-gradient(from 0deg, transparent, var(--color-accent), transparent 42%, var(--color-accent) 72%, transparent);
+  filter: blur(0.5px);
+  opacity: 0;
+}
+
+/* Razítko VE VÝSTAVBĚ — bouchne jednou a zůstane nakřivo. */
+/* Nálet ze `scale(1.55)`, ne z 2,6. Razítko je asi 250 px široké, takže
+   2,6 z něj udělá 650 px — v okně telefonu širokém 406 px to vyčuhuje
+   o 120 px na každou stranu, **rozšíří to dokument** a celá stránka se
+   posune do strany. Transformovaný prvek se do rolovatelné plochy počítá,
+   i když je průhledný. Klipovací rámeček kolem je druhá pojistka. */
+@keyframes karel-stamp {
+  0% { transform: rotate(-17deg) scale(1.55); opacity: 0; }
+  40% { transform: rotate(-17deg) scale(1.55); opacity: 0.85; }
+  62% { transform: rotate(-6.5deg) scale(1); opacity: 1; }
+  74% { transform: rotate(-6.5deg) scale(1.05); }
+  100% { transform: rotate(-6.5deg) scale(1); opacity: 1; }
+}
+.karel-stamp { animation: karel-stamp 0.85s cubic-bezier(0.34, 1.3, 0.5, 1) forwards; opacity: 0; }
+/* Razítko po dosednutí drží svůj náklon i bez animace (reduced motion). */
+.karel-stamp-settled { transform: rotate(-6.5deg); }
+
+/* Karel do razítka občas kopne a ono se zakymácí. */
+@keyframes karel-stamp-kick {
+  0%, 100% { transform: rotate(-6.5deg); }
+  22% { transform: rotate(-13deg); }
+  52% { transform: rotate(-1.5deg); }
+  78% { transform: rotate(-8.5deg); }
+}
+.karel-stamp-kick { animation: karel-stamp-kick 0.7s ease-in-out; }
+
+/* Obláček prachu pod razítkem. */
+@keyframes karel-dust {
+  0% { transform: scale(0.35); opacity: 0; }
+  35% { opacity: 0.5; }
+  100% { transform: scale(2.3); opacity: 0; }
+}
+.karel-dust {
+  animation: karel-dust 0.9s ease-out forwards;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-moss) 0%, transparent 70%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .karel-portal, .karel-dust { animation: none; opacity: 0; }
+  .karel-stamp, .karel-stamp-kick { animation: none; opacity: 1; transform: rotate(-6.5deg); }
+}
+
+/* Obláček prachu, který se zvedne u kopyt, když Karel dojde na místo.
+   Kreslí se jednou při příchodu (prvek se s každým příchodem znovu mountuje). */
+@keyframes karel-hoof-dust {
+  0% { transform: translateX(-50%) scale(0.4); opacity: 0; }
+  20% { opacity: 0.35; }
+  100% { transform: translateX(-50%) scale(1.6); opacity: 0; }
+}
+.karel-hoof-dust {
+  animation: karel-hoof-dust 1.4s ease-out 0.75s forwards;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-moss-soft) 0%, transparent 72%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .karel-hoof-dust { animation: none; opacity: 0; }
+}
