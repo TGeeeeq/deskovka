@@ -1,0 +1,38 @@
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+/* Nástup hero je čisté CSS — text je vidět i bez JavaScriptu. `backwards`, ne `both`. */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.hero-in {
+  animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes nz-flake {
+  from {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(70vh);
+    opacity: 0;
+  }
+}
+.nz-flake {
+  top: 0;
+  animation: nz-flake 6s linear infinite;
+}
+body {
+  overflow-x: clip;
+}
