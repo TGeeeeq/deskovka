@@ -1,0 +1,79 @@
+/* Obrazovková holo vrstva. Blend módy jsou tu záměrně — tahle stránka se netiskne,
+   tisková karta v src/art/collect je bez nich (holo = fólie na ploše .nz-cc-foil). */
+body {
+  overflow-x: clip;
+  background: #f4ecd6;
+}
+.tilt {
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  --on: 0;
+  perspective: 900px;
+  touch-action: none;
+}
+.tilt > .nz-card {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+  will-change: transform;
+}
+.tilt:hover > .nz-card {
+  transition-duration: 0.08s;
+  box-shadow: 0 18px 40px rgba(31, 61, 42, 0.32);
+}
+.tilt-still > .nz-card {
+  transform: none;
+}
+
+/* Duhová fólie za zvířetem: pruhy se posouvají s náklonem. */
+.tilt[data-rarity="holo"] .nz-cc-foil,
+.tilt[data-rarity="legenda"] .nz-cc-foil {
+  background: repeating-linear-gradient(
+    115deg,
+    hsl(350 90% 70%) 0%,
+    hsl(45 95% 62%) 6%,
+    hsl(120 70% 60%) 12%,
+    hsl(190 85% 62%) 18%,
+    hsl(265 85% 72%) 24%,
+    hsl(350 90% 70%) 30%
+  );
+  background-size: 300% 300%;
+  background-position: var(--mx) var(--my);
+  mix-blend-mode: multiply;
+  opacity: calc(0.38 + var(--on) * 0.4);
+  transition: opacity 0.3s, background-position 0.08s;
+}
+.tilt[data-rarity="legenda"] .nz-cc-foil {
+  background-image: repeating-linear-gradient(
+    115deg,
+    hsl(45 95% 62%) 0%,
+    hsl(30 90% 70%) 6%,
+    hsl(350 80% 76%) 12%,
+    hsl(45 95% 62%) 18%
+  );
+}
+/* Odlesk přes celou kartu. */
+.tilt > .nz-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
+  mix-blend-mode: overlay;
+  opacity: calc(var(--on) * 0.5);
+  transition: opacity 0.3s;
+}
+.tilt[data-rarity="holo"] > .nz-card::after,
+.tilt[data-rarity="legenda"] > .nz-card::after {
+  opacity: calc(var(--on) * 0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt > .nz-card {
+    transition: none;
+  }
+  .tilt > .nz-card::after {
+    display: none;
+  }
+}

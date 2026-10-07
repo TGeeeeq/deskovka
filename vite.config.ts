@@ -26,6 +26,7 @@ export default defineConfig({
         main: resolve(r("."), "index.html"),
         prezentace: resolve(r("."), "prezentace/index.html"),
         tisk: resolve(r("."), "tisk/index.html"),
+        sberka: resolve(r("."), "sberka/index.html"),
       },
     },
   },

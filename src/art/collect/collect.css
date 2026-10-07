@@ -1,0 +1,283 @@
+/* Sběratelská karta 63×88 mm (stejný rám a jednotky --u jako herní karty).
+   Bez filtrů a blend módů — holo je v tisku skutečná fólie, na obrazovce ji kreslí stránka.
+   Prázdný .nz-cc-foil leží v okně obrázku POD zvířetem: fólie je pozadí, zvíře je
+   přetištěné neprůhledně (stejně jako u klasických holo karet). */
+.nz-cc {
+  --cc-art-top: 13;
+  --cc-art-h: 38;
+}
+.nz-cc .nz-cc-art {
+  position: absolute;
+  left: calc((var(--bleed) + 2.6) * var(--u));
+  right: calc((var(--bleed) + 2.6) * var(--u));
+  top: calc((var(--bleed) + var(--cc-art-top)) * var(--u));
+  height: calc(var(--cc-art-h) * var(--u));
+  border-radius: calc(2 * var(--u));
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--cc-sky-a) 0%, var(--cc-sky-a) 45%, var(--cc-sky-b) 100%);
+  box-shadow: inset 0 0 0 calc(0.35 * var(--u)) rgba(61, 51, 38, 0.45);
+}
+.nz-cc .nz-cc-ground {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -30%;
+  height: 55%;
+  border-radius: 50% 50% 0 0;
+  background: rgba(255, 255, 255, 0.28);
+}
+.nz-cc-s-zima .nz-cc-ground {
+  background: rgba(255, 255, 255, 0.75);
+}
+.nz-cc svg.nz-cc-animal {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  height: 92%;
+  width: auto;
+  max-width: 96%;
+  transform: translateX(-50%);
+}
+.nz-cc svg.nz-cc-snow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.nz-cc .nz-cc-foil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.nz-cc .nz-cc-inner {
+  position: absolute;
+  inset: calc((var(--bleed) + 2.6) * var(--u));
+  display: flex;
+  flex-direction: column;
+}
+.nz-cc .nz-cc-head {
+  display: flex;
+  align-items: center;
+  gap: calc(1.4 * var(--u));
+  height: calc(9.4 * var(--u));
+}
+.nz-cc .nz-cc-code {
+  flex: none;
+  width: calc(8.6 * var(--u));
+  height: calc(8.6 * var(--u));
+  border-radius: 50%;
+  background: var(--cc-ring);
+  color: #fffaf0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif, Fraunces, serif);
+  font-weight: 700;
+  font-size: calc(3.9 * var(--u));
+  box-shadow: 0 0 0 calc(0.5 * var(--u)) #fffaf0, 0 0 0 calc(0.8 * var(--u)) rgba(61, 51, 38, 0.45);
+}
+.nz-cc .nz-cc-name {
+  flex: 1;
+  min-width: 0;
+}
+.nz-cc .nz-cc-name .nz-kicker {
+  font-size: calc(2.1 * var(--u));
+  color: #6a5a42;
+}
+.nz-cc .nz-cc-name .nz-title {
+  font-size: calc(4 * var(--u));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nz-cc svg.nz-cc-marker {
+  flex: none;
+  width: calc(6.4 * var(--u));
+  height: calc(6.4 * var(--u));
+}
+.nz-cc .nz-cc-spacer {
+  flex: none;
+  height: calc((var(--cc-art-h) + 1.2) * var(--u));
+}
+.nz-cc .nz-cc-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: calc(1 * var(--u));
+  min-height: 0;
+}
+.nz-cc .nz-cc-stats {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.85 * var(--u));
+}
+.nz-cc .nz-cc-stat {
+  display: grid;
+  grid-template-columns: calc(17 * var(--u)) 1fr calc(6 * var(--u));
+  align-items: center;
+  gap: calc(1.2 * var(--u));
+  font-size: calc(2.65 * var(--u));
+  line-height: 1;
+}
+.nz-cc .nz-cc-stat b {
+  font-family: var(--font-serif, Fraunces, serif);
+  font-size: calc(3.1 * var(--u));
+  text-align: right;
+}
+.nz-cc .nz-cc-bar {
+  height: calc(1.5 * var(--u));
+  border-radius: calc(0.75 * var(--u));
+  background: rgba(61, 51, 38, 0.13);
+  overflow: hidden;
+}
+.nz-cc .nz-cc-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cc-ring);
+}
+.nz-cc .nz-cc-quote {
+  font-family: var(--font-serif, Fraunces, serif);
+  font-style: italic;
+  font-size: calc(2.6 * var(--u));
+  color: #5a4a34;
+  border-top: calc(0.25 * var(--u)) dashed rgba(61, 51, 38, 0.35);
+  padding-top: calc(1 * var(--u));
+  margin-top: auto;
+}
+.nz-cc .nz-cc-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: calc(2 * var(--u));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #6a5a42;
+}
+.nz-cc .nz-cc-rarity {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.6 * var(--u));
+}
+.nz-cc svg.nz-cc-mark {
+  width: calc(3.4 * var(--u));
+  height: calc(3.4 * var(--u));
+}
+.nz-cc svg.nz-cc-stamp {
+  position: absolute;
+  right: calc((var(--bleed) + 4) * var(--u));
+  top: calc((var(--bleed) + 34) * var(--u));
+  width: calc(17 * var(--u));
+  height: calc(17 * var(--u));
+  color: #a8442c;
+  opacity: 0.82;
+  transform: rotate(-14deg);
+}
+
+/* Vzácná: zlatý dvojitý rám. V tisku zlatá přímá barva nebo fólie jen na rámu. */
+.nz-cc-vzacna {
+  background: #fbf0d0;
+}
+.nz-cc-vzacna .nz-cc-frame {
+  border: calc(0.7 * var(--u)) solid #c9973a;
+  box-shadow: inset 0 0 0 calc(0.6 * var(--u)) #fbf0d0, inset 0 0 0 calc(0.9 * var(--u)) #c9973a;
+}
+
+/* Holo: stříbrný rám, fólie přes okno s obrázkem. */
+.nz-cc-holo {
+  background: linear-gradient(160deg, #f3f4f2 0%, #fbf3dc 55%, #eef1ee 100%);
+}
+.nz-cc-holo .nz-cc-frame {
+  border: calc(0.7 * var(--u)) solid #8fa7b5;
+}
+.nz-cc-holo .nz-cc-art {
+  box-shadow: inset 0 0 0 calc(0.6 * var(--u)) #8fa7b5;
+}
+
+/* Legendární: obrázek přes celou kartu, text na krémovém panelu, zlatý rám, číslování. */
+.nz-cc-legenda {
+  --cc-art-top: 0;
+  background: #1f3d2a;
+}
+.nz-cc-legenda .nz-cc-art {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+.nz-cc-legenda svg.nz-cc-animal {
+  bottom: 41%;
+  height: 40%;
+}
+.nz-cc-legenda .nz-cc-ground {
+  bottom: 0;
+  height: 62%;
+  border-radius: 40% 40% 0 0;
+}
+.nz-cc-legenda .nz-cc-frame {
+  border: calc(1 * var(--u)) solid #d6a63a;
+  box-shadow: inset 0 0 0 calc(0.6 * var(--u)) rgba(255, 250, 240, 0.85), inset 0 0 0 calc(1 * var(--u)) #d6a63a;
+}
+.nz-cc-legenda .nz-cc-head {
+  background: rgba(255, 250, 240, 0.9);
+  border-radius: calc(5 * var(--u));
+  padding: 0 calc(1.2 * var(--u)) 0 calc(0.6 * var(--u));
+  margin-top: calc(0.8 * var(--u));
+}
+.nz-cc-legenda .nz-cc-spacer {
+  height: auto;
+  flex: 1;
+}
+.nz-cc-legenda .nz-cc-panel {
+  flex: none;
+  background: rgba(255, 250, 240, 0.92);
+  border-radius: calc(2 * var(--u));
+  padding: calc(1.4 * var(--u));
+  margin: 0 calc(0.6 * var(--u)) calc(0.6 * var(--u));
+}
+.nz-cc .nz-cc-serial {
+  align-self: flex-end;
+  margin-top: calc(1 * var(--u));
+  font-family: var(--font-serif, Fraunces, serif);
+  font-weight: 700;
+  font-size: calc(2.8 * var(--u));
+  color: #7a5512;
+  background: #f0e892;
+  border: calc(0.3 * var(--u)) solid #7a5512;
+  border-radius: calc(1.2 * var(--u));
+  padding: calc(0.2 * var(--u)) calc(1.2 * var(--u));
+}
+.nz-cc-legenda svg.nz-cc-stamp {
+  top: calc((var(--bleed) + 15) * var(--u));
+  left: calc((var(--bleed) + 4) * var(--u));
+  right: auto;
+  transform: rotate(12deg);
+}
+
+.nz-cc-back {
+  background: #1f3d2a;
+}
+.nz-cc-back .nz-cc-back-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(1.6 * var(--u));
+  text-align: center;
+}
+.nz-cc-back svg.nz-cc-back-star {
+  width: calc(16 * var(--u));
+  height: calc(16 * var(--u));
+}
+.nz-cc-back .nz-cc-back-title {
+  font-family: var(--font-serif, Fraunces, serif);
+  font-weight: 700;
+  font-size: calc(6 * var(--u));
+  color: #fffaf0;
+  line-height: 1.05;
+  padding: 0 calc(6 * var(--u));
+}
