@@ -704,7 +704,7 @@ Hra končí po posledním kole podzimu. Sečtěte hvězdy:
 | --- | --- | --- |
 | 2 | 8 ★ a víc | 13 ★ a víc |
 | 3 | 9 ★ a víc | 14 ★ a víc |
-| 4 | 10 ★ a víc | 15 ★ a víc |
+| 4 | 11 ★ a víc | 16 ★ a víc |
 
 - **Hojná zima:** *Zbylo i na jaro. Karel to spočítal. …Dvakrát.*
 - **Dobrá zima:** *Všichni v teple a seno voní. …Karel taky. Trochu.*

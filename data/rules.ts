@@ -45,7 +45,7 @@ export const roundsPerSeason = (animals: number) => (animals <= 2 ? 4 : 3);
 export const WINTER_TIERS: Record<2 | 3 | 4, [number, number]> = {
   2: [8, 13],
   3: [9, 14],
-  4: [10, 15],
+  4: [11, 16],
 };
 
 export type TierId = "hubena" | "dobra" | "hojna";

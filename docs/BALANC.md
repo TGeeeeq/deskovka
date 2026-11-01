@@ -64,6 +64,10 @@ playtesty — viz `docs/PLAYTEST.md`.
 
 ## Co simulace změnila na pravidlech
 
+- **Dobrá zima pro 4 zvířata od 11 ★ (dřív 10), Hojná od 16 ★ (dřív 15).** Po naučení bota bylo
+  Normální 80 % proti cíli 60–72 %. Teď (120 her, bez bouřky): Klidná 89 % ±6, Normální 67 % ±8,
+  Těžká 54 % ±9, Hrdinská 33 % ±8; animalImpact nejhůř Pogo −7 (Těžká). Pro 2 a 3 zvířata beze změny
+  (zatím neměřeno novým botem).
 - **1. 11. 2026 — bot, ne pravidla.** Bot se naučil Pelíšky, Křížaly a řetězy přes víc tahů (viz výše).
   Normální 4 zvířata, 120 her bez bouřky: **20 % → 80 %** her aspoň Dobrá zima (±7 p. b.), Pelíšek
   0,28 → 2,02 / 2, Křížaly 0,16 → 0,45 / 2, Seno 5,83 → 4,53 / 5 (dřív přetékalo), animalImpact

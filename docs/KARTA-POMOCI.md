@@ -77,4 +77,4 @@ Suroviny bereš z nákladu i přímo ze stanice. Výrobek jde do nákladu. Nákl
 | --- | --- | --- |
 | 2 | 8 | 13 |
 | 3 | 9 | 14 |
-| 4 | 10 | 15 |
+| 4 | 11 | 16 |

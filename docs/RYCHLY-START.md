@@ -44,6 +44,6 @@ Po posledním kole podzimu sečtěte hvězdy: plný řádek spíže ★★, polo
 | --- | --- | --- |
 | 2 | 8 ★ | 13 ★ |
 | 3 | 9 ★ | 14 ★ |
-| 4 | 10 ★ | 15 ★ |
+| 4 | 11 ★ | 16 ★ |
 
 *…Zima přijde tak jako tak. Seno ve spíži je lepší než seno na louce.*
