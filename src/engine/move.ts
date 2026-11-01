@@ -72,31 +72,49 @@ export function reachable(s: GameState, id: AnimalId, max: number, opts: { ignor
   return out;
 }
 
-/** Nejkratší vzdálenost s využitím otevřených zkratek (pro bota a nápovědu). */
+/** Nejkratší vzdálenost s využitím otevřených zkratek (pro bota a nápovědu).
+ *  Závisí jen na tom, kdo jde (smí přes zavřená vrata / přes potok) a které
+ *  brány jsou otevřené — tabulky se proto počítají jednou a pamatují. */
 export function distance(s: GameState, id: AnimalId, from: number, to: number): number {
-  const dist = new Map<number, number>([[from, 0]]);
-  const queue: number[] = [from];
-  while (queue.length) {
-    const n = queue.shift()!;
-    const d = dist.get(n)!;
-    const nb: [number, number][] = [
-      [wrap(n + 1), 1],
-      [wrap(n - 1), 1],
-    ];
-    for (const sc of SHORTCUTS) {
-      const other = sc.a === n ? sc.b : sc.b === n ? sc.a : null;
-      if (other === null) continue;
-      if (sc.only && !sc.only.includes(id)) continue;
-      if (sc.gate && !s.gates[sc.id as "sad" | "maringotka"].open && id !== "avala" && id !== "karel") continue;
-      nb.push([other, SHORTCUT_COST]);
-    }
-    for (const [m, c] of nb) {
-      const nd = d + c;
-      if (nd < (dist.get(m) ?? Infinity)) {
-        dist.set(m, nd);
-        queue.push(m);
+  return distTable(s, id)[(from - 1) * SPACE_COUNT + (to - 1)];
+}
+
+const tables = new Map<string, Float64Array>();
+
+function distTable(s: GameState, id: AnimalId): Float64Array {
+  const gatesAny = id === "avala" || id === "karel";
+  const skip = SHORTCUTS.some((sc) => sc.only?.includes(id));
+  const key = `${gatesAny ? 1 : 0}${skip ? id : ""}|${s.gates.sad.open ? 1 : 0}${s.gates.maringotka.open ? 1 : 0}`;
+  let t = tables.get(key);
+  if (t) return t;
+  t = new Float64Array(SPACE_COUNT * SPACE_COUNT);
+  for (let from = 1; from <= SPACE_COUNT; from++) {
+    const dist = new Map<number, number>([[from, 0]]);
+    const queue: number[] = [from];
+    while (queue.length) {
+      const n = queue.shift()!;
+      const d = dist.get(n)!;
+      const nb: [number, number][] = [
+        [wrap(n + 1), 1],
+        [wrap(n - 1), 1],
+      ];
+      for (const sc of SHORTCUTS) {
+        const other = sc.a === n ? sc.b : sc.b === n ? sc.a : null;
+        if (other === null) continue;
+        if (sc.only && !sc.only.includes(id)) continue;
+        if (sc.gate && !s.gates[sc.id as "sad" | "maringotka"].open && !gatesAny) continue;
+        nb.push([other, SHORTCUT_COST]);
+      }
+      for (const [m, c] of nb) {
+        const nd = d + c;
+        if (nd < (dist.get(m) ?? Infinity)) {
+          dist.set(m, nd);
+          queue.push(m);
+        }
       }
     }
+    for (let to = 1; to <= SPACE_COUNT; to++) t[(from - 1) * SPACE_COUNT + (to - 1)] = dist.get(to) ?? Infinity;
   }
-  return dist.get(to) ?? Infinity;
+  tables.set(key, t);
+  return t;
 }
