@@ -12,6 +12,6 @@ npx tsx scripts/sim/smoke.ts <semínko>   # jedna hra, souhrn
 ```
 
 - Cíle pro lidi: `data/rules.ts` → `DIFFICULTIES[].target` (Normální 60–72 % her aspoň Dobrá zima).
-- **Bot je spodní odhad**: plánuje jeden tah dopředu, nevyrábí Pelíšky ani Křížaly. Pořadí obtížností musí sedět, absolutní čísla dorovnávají playtesty (`docs/PLAYTEST.md`).
+- **Bot není kalibrace**: ohodnocení počítá v hvězdách a řetězy přes víc tahů (Pelíšky, Křížaly, Kompost) vidí přes zlevněnou cenu věcí na cestě. Pořád slabě plní Potřeby se lhůtou 2 a „spolu" Potřeby. Pořadí obtížností musí sedět, absolutní čísla dorovnávají playtesty (`docs/PLAYTEST.md`). Co umí a neumí: `docs/BALANC.md`.
 - Čti hlavně: `pantry` (který řádek spíže chybí), `needsFailed`, `idleShare` (tahy bez akce; nad ~30 % je deska „prázdná“), `animalImpact` (žádné zvíře by nemělo posunout výsledek o víc než ±8 p. b.).
 - Výsledky a historie změn: `docs/BALANC.md`. Po změně pravidla doplň řádek do sekce „Co simulace změnila“.

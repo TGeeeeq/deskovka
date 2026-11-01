@@ -1,5 +1,5 @@
 /** Simulace balancu: npm run sim -- --games 400 --animals 4 --difficulty normalni [--storm] [--expert]
- *  Bot je hladový (1 tah dopředu) — výsledky jsou SPODNÍ odhad, rodina u stolu hraje líp. */
+ *  Bot je hladový s ohodnocením v hvězdách (viz docs/BALANC.md) — není to kalibrace, rozhodnou playtesty. */
 import { Worker } from "node:worker_threads";
 import { cpus } from "node:os";
 import { mkdirSync, writeFileSync } from "node:fs";
