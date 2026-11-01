@@ -508,18 +508,18 @@ Každé kolo začíná kartou počasí. Karta má:
 
 | Soused | Potřeba | Úkol | Lhůta | Odměna |
 | --- | --- | --- | --- | --- |
-| Princezna | Slintavá potopa | 2 Ovoce na Seník | 2 | 2 srdíčka |
-| Princezna | Bahenní lázeň | 2 Vody ke Kompostu | 2 | Kompost +2 Hnůj, 1 srdíčko |
+| Princezna | Slintavá potopa | 2 Ovoce na Seník | | 3 | 2 srdíčka |
+| Princezna | Bahenní lázeň | 2 Vody ke Kompostu | | 3 | Kompost +2 Hnůj, 1 srdíčko |
 | Princezna | Vyčesat štětiny | Na Seníku akce Vyčesat Princeznu se silou 4 (jen ve dvou) | 3 | Obě zvířata 2 srdíčka |
-| Riky | Prázdná miska | 1 Voda k Bráně | 2 | Ostatní Potřeby +1 kolo |
+| Riky | Prázdná miska | 1 Voda k Bráně | | 3 | Ostatní Potřeby +1 kolo |
 | Riky | Pelíšek pro hlídače | 1 Pelíšek k Bráně | 4 | 3 srdíčka a ★ |
 | Lucinka | Průzkumnice | Vyzvedni Lucinku u Potoka a doprovoď ji k Maringotce | 3 | 2 srdíčka, Louka +2 Tráva |
 | Emil a Amálka | Nehnou se od sebe | 2 Sena k Maringotce, dvě zvířata spolu | 3 | Obě zvířata 2 srdíčka |
 | Tonička | Nejdřív si to prohlédne | 1 Proutí a 1 Tráva k Bráně | 3 | 1 srdíčko (Karel +1), otevřete jedna vrata |
-| Elvíra | U plotu nic nezmešká | 1 Bylinky k Bráně | 2 | Pomocník ze 3 Událostí do zálohy |
+| Elvíra | U plotu nic nezmešká | 1 Bylinky k Bráně | | 3 | Pomocník ze 3 Událostí do zálohy |
 | Tonička a Elvíra | Suchá kopyta | 1 Seno a 1 Proutí na Seník | 3 | 2 srdíčka (Karel +1) |
 | Roman | Kocour na hlídce | 1 Vlna na Seník | 3 | První ztráta Sena ze spíže se ruší, 1 srdíčko |
-| Patricie | Šanta pro pěvkyni | 1 Bylinky k Maringotce | 2 | Zvířata v Maringotce +1 srdíčko; příští Událost smíte zahodit |
+| Patricie | Šanta pro pěvkyni | 1 Bylinky k Maringotce | | 3 | Zvířata v Maringotce +1 srdíčko; příští Událost smíte zahodit |
 | Hanička | Samotářka v dílně | Do konce lhůty nikdo neskončí tah v Dílně | 2 | +2 Práce, 1 Proutí, všem 1 srdíčko |
 | Husy | Šéf louky | Ve dvou u Potoka: 1 Tráva + 1 Voda | 3 | Potok +2 Voda +1 Proutí, obě zvířata 1 srdíčko |
 | Husy | Inspekce | 1 Tráva na pole s husami | 3 | 1 srdíčko a 1 Voda |

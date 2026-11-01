@@ -64,6 +64,11 @@ playtesty — viz `docs/PLAYTEST.md`.
 
 ## Co simulace změnila na pravidlech
 
+- **Lhůta 3 místo 2** u Slintavé potopy, Bahenní lázně, Prázdné misky, U plotu nic nezmešká a Šanty
+  pro pěvkyni (donést surovinu přes půl Louky za 2 kola skoro nešlo, propadaly v ~90 % her).
+  Spolu s prahem 11 ★ (120 her, 4 zvířata, bez bouřky): Klidná 86 % ±6, Normální 70 % ±8, Těžká 47 % ±9,
+  Hrdinská 32 % ±8 — vše v cílových pásmech. Propadlé Potřeby na Normální 3,4 → 3,1 za hru; bot
+  Potřeby plní pořád slabě, lidi z delší lhůty vytěží víc (ověřit playtestem).
 - **Dobrá zima pro 4 zvířata od 11 ★ (dřív 10), Hojná od 16 ★ (dřív 15).** Po naučení bota bylo
   Normální 80 % proti cíli 60–72 %. Teď (120 her, bez bouřky): Klidná 89 % ±6, Normální 67 % ±8,
   Těžká 54 % ±9, Hrdinská 33 % ±8; animalImpact nejhůř Pogo −7 (Těžká). Pro 2 a 3 zvířata beze změny
